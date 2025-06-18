@@ -1,0 +1,27 @@
+# ✅ Node.js dependencies
+node_modules/
+
+# ✅ Local environment config
+.env
+
+# ✅ Logs and debug output
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ✅ System/IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# ✅ Build output (if any)
+dist/
+build/
+
+# ✅ Optional: test coverage output
+coverage/
+
+# ✅ OS-specific (Windows)
+*.swp
