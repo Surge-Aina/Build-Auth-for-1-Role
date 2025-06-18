@@ -3,9 +3,16 @@ console.log("MONGO_URI from .env:", process.env.MONGO_URI);
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5000", // ✅ local frontend (for dev)
+  ],
+  credentials: true,
+};
 
 const authRoutes = require("./routes/auth");
-//const dashboardRoutes = require("./routes/dashboard");
+const dashboardRoutes = require("./routes/dashboard");
 const taskRoutes = require("./routes/task");
 //const userRoutes = require("./routes/users");
 const reportRoutes = require("./routes/report");
@@ -14,11 +21,12 @@ const app = express();
 
 // Middleware
 app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
-// app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/tasks", taskRoutes);
 //app.use("/api/users", userRoutes);
 app.use("/api/report", reportRoutes);
@@ -29,6 +37,9 @@ app.get("/api/test", (req, res) => {
 });
 app.get("/api/test", (req, res) => {
   res.status(200).json({ message: "Hello there!" });
+});
+app.get("/", (req, res) => {
+  res.send("🎉 Backend API is running!");
 });
 
 // Connect to MongoDB and start the server
