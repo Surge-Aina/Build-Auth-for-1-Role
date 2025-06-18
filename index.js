@@ -1,4 +1,5 @@
 require("dotenv").config();
+console.log("MONGO_URI from .env:", process.env.MONGO_URI);
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -26,10 +27,17 @@ app.use("/api/report", reportRoutes);
 app.get("/api/test", (req, res) => {
   res.send("Hello there!");
 });
+app.get("/api/test", (req, res) => {
+  res.status(200).json({ message: "Hello there!" });
+});
+
 // Connect to MongoDB and start the server
 if (process.env.NODE_ENV !== "test") {
   mongoose
-    .connect(process.env.MONGO_URI)
+    .connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     .then(() => {
       console.log("✅ MongoDB connected successfully!");
       app.listen(process.env.PORT, () => {
